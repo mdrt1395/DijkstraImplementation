@@ -1,6 +1,11 @@
-@DijkstraImplementation_HostAddress = http://localhost:5021
+@DijkstraImplementation_HostAddress = https://localhost:7028
 
 GET {{DijkstraImplementation_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+@RouteName=string
+DELETE {{DijkstraImplementation_HostAddress}}/api/routeinfo/{RouteName:regex([[a-z]]{{2}})}?RouteName={{RouteName}}
 
 ###
