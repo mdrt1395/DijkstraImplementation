@@ -45,7 +45,7 @@ namespace DijkstraImplementation.Controllers
                 BusPlates = addBusInfoDto.BusPlates,
                 NumberOfSeats = addBusInfoDto.NumberOfSeats,
                 IsAvailable = addBusInfoDto.IsAvailable,
-
+                BusCategoryId = new Guid("f363c917-930e-4c7a-a7a0-aceccf4fb89f")
             };
             dbContext.BusInfos.Add(busEntity);
             dbContext.SaveChanges();

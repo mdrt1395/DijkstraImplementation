@@ -2,6 +2,6 @@
 {
     public class AddBusSeatDto
     {
-        
+        public int SeatNumber { get; set; }
     }
 }

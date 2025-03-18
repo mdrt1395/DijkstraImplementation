@@ -7,13 +7,13 @@ namespace DijkstraImplementation.Models.Entities
         [Key]  
         public int SeatNumber { get; set; }
 
-        public required string Name { get; set; }
-        public required User User { get; set; }  // Navigation Property
+        public string? Name { get; set; }
+        public virtual User? User { get; set; }  // Navigation Property
 
-        public required string RouteName { get; set; }
+        public string? RouteName { get; set; }
         public virtual RouteInfo? RouteInfo { get; set; }  // Navigation Property
 
-        public required string BusPlates { get; set; }
+        public string? BusPlates { get; set; }
         public virtual BusInfo? BusInfo { get; set; }  // Navigation Property
 
 

@@ -2,6 +2,6 @@
 {
     public class UpdateBusSeatDto
     {
-        
+        public int SeatNumber { get; set; }
     }
 }
