@@ -45,7 +45,7 @@ namespace DijkstraImplementation.Controllers
                 BusPlates = addBusInfoDto.BusPlates,
                 NumberOfSeats = addBusInfoDto.NumberOfSeats,
                 IsAvailable = addBusInfoDto.IsAvailable,
-                BusCategoryId = new Guid()
+
             };
             dbContext.BusInfos.Add(busEntity);
             dbContext.SaveChanges();
@@ -53,6 +53,33 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpPut]
+        [Route("{BusPlates:regex([[a-z]]{{2}})}")]
+        public IActionResult UpdateBusInfo(string BusPlates, UpdateBusInfoDto updateBusInfoDto) 
+        {
+            var bus = dbContext.BusInfos.Find(BusPlates);
+            if ( bus is null)
+            {
+                return NotFound();
+            }
+            bus.IsAvailable = updateBusInfoDto.IsAvailable;
+            dbContext.SaveChanges();
+            return Ok(bus);
+        }
+
+        [HttpDelete]
+        [Route("{BusPlates:regex([[a-z]]{{2}})}")]
+        public IActionResult DeleteBusInfo(string BusPlates)
+        {
+            var bus = dbContext.BusInfos.Find(BusPlates);
+            if( bus is null )
+            {
+                return NotFound();
+            }
+            dbContext.BusInfos.Remove(bus);
+            dbContext.SaveChanges();
+            return Ok(bus);
+        }
+
 
 
     }

@@ -6,7 +6,7 @@ namespace DijkstraImplementation.Models.Entities
     public class BusStatus
     {
         [Key]
-        public required Guid Id { get; set; }
+        public required Guid BusStatusId { get; set; }
         public string? Status { get; set; }
     }
 }

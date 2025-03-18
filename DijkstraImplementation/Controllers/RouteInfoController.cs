@@ -28,7 +28,7 @@ namespace DijkstraImplementation.Controllers
 
         [HttpGet]
         [Route("{RouteName:regex([[a-z]]{{2}})}")]
-        public IActionResult getRouteByRouteName(string RouteName)
+        public IActionResult GetRouteByRouteName(string RouteName)
         {
             var route = dbContext.Routes.Find(RouteName);
             if (route is null)
