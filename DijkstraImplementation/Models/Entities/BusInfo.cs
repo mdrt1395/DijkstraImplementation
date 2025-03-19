@@ -9,10 +9,6 @@ namespace DijkstraImplementation.Models.Entities
         public required string BusPlates { get; set; } 
         public required int NumberOfSeats { get; set; }
         public required bool IsAvailable { get; set; }
-
-        [ForeignKey("BusCategory")]
-        public Guid BusCategoryId { get; set; }
-        public virtual BusCategory? BusCategory { get; set; }
        
     }
 }

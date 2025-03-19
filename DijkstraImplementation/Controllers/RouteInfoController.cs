@@ -27,7 +27,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpGet]
-        [Route("{RouteName:regex([[a-z]]{{2}})}")]
+        [Route("{RouteName:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
         public IActionResult GetRouteByRouteName(string RouteName)
         {
             var route = dbContext.Routes.Find(RouteName);
@@ -54,7 +54,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpPut]
-        [Route("{RouteName:regex([[a-z]]{{2}})}")]
+        [Route("{RouteName:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
         public IActionResult UpdateRouteInfo(string RouteName, UpdateRouteInfoDto updateRouteInfoDto)
         {
             var route = dbContext.Routes.Find(RouteName);
@@ -71,7 +71,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpDelete]
-        [Route("{RouteName:regex([[a-z]]{{2}})}")]
+        [Route("{RouteName:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
         public IActionResult DeleteRouteInfo(string RouteName)
         {
             var route = dbContext.Routes.Find(RouteName);

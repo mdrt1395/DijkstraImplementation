@@ -13,7 +13,6 @@ namespace DijkstraImplementation.Data
         public DbSet<BusInfo> BusInfos {  get; set; }
         public DbSet<BusSchedule> BusSchedules { get; set; }
         public DbSet<RouteInfo> Routes { get; set; }
-        public DbSet<BusStatus> BusStatuses { get; set; }
         public DbSet<BusSeat> BusSeats { get; set; }
 
 

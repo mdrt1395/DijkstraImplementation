@@ -4,6 +4,7 @@ using DijkstraImplementation.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DijkstraImplementation.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250319175544_thirdMigration")]
+    partial class thirdMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,6 +93,20 @@ namespace DijkstraImplementation.Migrations
                     b.HasIndex("RouteName");
 
                     b.ToTable("BusSeats");
+                });
+
+            modelBuilder.Entity("DijkstraImplementation.Models.Entities.BusStatus", b =>
+                {
+                    b.Property<Guid>("BusStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BusStatusId");
+
+                    b.ToTable("BusStatuses");
                 });
 
             modelBuilder.Entity("DijkstraImplementation.Models.Entities.RouteInfo", b =>

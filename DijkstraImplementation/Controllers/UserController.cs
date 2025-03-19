@@ -42,7 +42,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpGet]
-        [Route("{Username:regex([[a-z]]{{2}})}")]
+        [Route("{Username:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
         public IActionResult getUserByUsername(string Username)
         {
             var user = dbContext.Users.Find(Username);
@@ -54,7 +54,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpPut]
-        [Route("{Username:regex([[a-z]]{{2}})}")]
+        [Route("{Username:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
         public IActionResult UpdateUser(string Username, UpdateUserDto updateUserDto)
         {
             var user = dbContext.Users.Find(Username);
@@ -68,7 +68,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpDelete]
-        [Route("{Username:regex([[a-z]]{{2}})}")]
+        [Route("{Username:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
         public IActionResult DeleteUser(string Username)
         {
             var user = dbContext.Users.Find(Username);
