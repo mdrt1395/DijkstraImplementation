@@ -28,17 +28,24 @@ namespace DijkstraImplementation.Controllers
         [HttpPost]
         public IActionResult AddUser(AddUserDto addUserDto)
         {
-            var userEntity = new User()
+            if (ModelState.IsValid)
             {
-                Name = addUserDto.Name,
-                Username = addUserDto.Username,
-                Password = addUserDto.Password,
-                IsAdmin = addUserDto.IsAdmin
-            };
+                var userEntity = new User()
+                {
+                    Name = addUserDto.Name,
+                    Username = addUserDto.Username,
+                    Password = addUserDto.Password,
+                    IsAdmin = addUserDto.IsAdmin
+                };
 
-            dbContext.Users.Add(userEntity);
-            dbContext.SaveChanges();
-            return Ok(userEntity);
+                dbContext.Users.Add(userEntity);
+                dbContext.SaveChanges();
+                return Ok(userEntity);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }        
         }
 
         [HttpGet]

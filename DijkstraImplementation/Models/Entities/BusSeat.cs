@@ -4,7 +4,9 @@ namespace DijkstraImplementation.Models.Entities
 {
     public class BusSeat
     {
-        [Key]  
+        [Key]
+        [Range(1, 10, ErrorMessage = "Seat must be between 1 and 10.")]
+
         public int SeatNumber { get; set; }
 
         public string? Name { get; set; }
