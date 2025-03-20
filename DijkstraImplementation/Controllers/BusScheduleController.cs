@@ -25,7 +25,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpGet]
-        [Route("{BusScheduleId:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
+        [Route("{BusScheduleId:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
         public IActionResult GetBusScheduleById(string BusScheduleId)
         {
             var schedule = dbContext.BusSchedules.Find(BusScheduleId);
@@ -51,7 +51,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpPut]
-        [Route("{BusScheduleId:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
+        [Route("{BusScheduleId:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
         public IActionResult UpdateBusSchedule (UpdateBusScheduleDto updateBusScheduleDto)
         {
             var busSchedule = dbContext.BusSchedules.Find(GetBusScheduleById);
@@ -67,7 +67,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpDelete]
-        [Route("{BusScheduleId:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
+        [Route("{BusScheduleId:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
         public IActionResult DeleteBusSchedule(string BusScheduleId) 
         {
             var busSchedule = dbContext.BusSchedules.Find(BusScheduleId);

@@ -25,7 +25,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpGet]
-        [Route("{BusPlates:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
+        [Route("{BusPlates:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
         public IActionResult getBusByBusPlates(string BusPlates) 
         {
             var bus = dbContext.BusInfos.Find(BusPlates);
@@ -52,7 +52,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpPut]
-        [Route("{BusPlates:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
+        [Route("{BusPlates:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
         public IActionResult UpdateBusInfo(string BusPlates, UpdateBusInfoDto updateBusInfoDto) 
         {
             var bus = dbContext.BusInfos.Find(BusPlates);
@@ -66,7 +66,7 @@ namespace DijkstraImplementation.Controllers
         }
 
         [HttpDelete]
-        [Route("{BusPlates:regex(^[[A-Za-z0-9!@#$%^&*()-_=+]]$)}")]
+        [Route("{BusPlates:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
         public IActionResult DeleteBusInfo(string BusPlates)
         {
             var bus = dbContext.BusInfos.Find(BusPlates);
