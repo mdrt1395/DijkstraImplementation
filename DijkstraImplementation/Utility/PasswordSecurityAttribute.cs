@@ -9,7 +9,7 @@ namespace DijkstraImplementation.Utility
         {
             if (value is not string password)
                 return new ValidationResult("Invalid password format.");
-            var regex = new Regex(@"^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])$");
+            var regex = new Regex(@"(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])");
 
             if (!regex.IsMatch(password))
             {
