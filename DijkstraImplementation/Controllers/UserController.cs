@@ -25,6 +25,18 @@ namespace DijkstraImplementation.Controllers
             return Ok(allUsers);
         }
 
+        [HttpGet]
+        [Route("{Username:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
+        public IActionResult getUserByUsername(string Username)
+        {
+            var user = dbContext.Users.Find(Username);
+            if (user is null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public IActionResult AddUser(AddUserDto addUserDto)
         {
@@ -45,19 +57,7 @@ namespace DijkstraImplementation.Controllers
             else
             {
                 return BadRequest(ModelState);
-            }        
-        }
-
-        [HttpGet]
-        [Route("{Username:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
-        public IActionResult getUserByUsername(string Username)
-        {
-            var user = dbContext.Users.Find(Username);
-            if (user is null)
-            {
-                return NotFound();
             }
-            return Ok(user);
         }
 
         [HttpPut]
@@ -65,13 +65,20 @@ namespace DijkstraImplementation.Controllers
         public IActionResult UpdateUser(string Username, UpdateUserDto updateUserDto)
         {
             var user = dbContext.Users.Find(Username);
-            if (User is null) 
-            { 
-                return NotFound();
+            if (ModelState.IsValid)
+            {
+                user.Password = updateUserDto.Password;
+                dbContext.SaveChanges();
+                return Ok(user);
+
             }
-            user.Password = updateUserDto.Password;
-            dbContext.SaveChanges();
-            return Ok(user);
+            else 
+            {
+                return BadRequest(ModelState);
+            }
+            
+            
+
         }
 
         [HttpDelete]

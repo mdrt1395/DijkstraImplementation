@@ -39,15 +39,22 @@ namespace DijkstraImplementation.Controllers
         [HttpPost]
         public IActionResult AddBusSchedule(AddBusScheduleDto addBusScheduleDto)
         {
-            var busScheduleEntity = new BusSchedule()
+            if (ModelState.IsValid)
             {
-                BusScheduleId = addBusScheduleDto.BusScheduleId,
-                DepartureTime = addBusScheduleDto.DepartureTime,
-                ArrivalTime = addBusScheduleDto.ArrivalTime,
-            };
-            dbContext.BusSchedules.Add(busScheduleEntity);
-            dbContext.SaveChanges();
-            return Ok(busScheduleEntity);
+                var busScheduleEntity = new BusSchedule()
+                {
+                    BusScheduleId = addBusScheduleDto.BusScheduleId,
+                    DepartureTime = addBusScheduleDto.DepartureTime,
+                    ArrivalTime = addBusScheduleDto.ArrivalTime,
+                };
+                dbContext.BusSchedules.Add(busScheduleEntity);
+                dbContext.SaveChanges();
+                return Ok(busScheduleEntity);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut]
@@ -55,15 +62,19 @@ namespace DijkstraImplementation.Controllers
         public IActionResult UpdateBusSchedule (UpdateBusScheduleDto updateBusScheduleDto)
         {
             var busSchedule = dbContext.BusSchedules.Find(GetBusScheduleById);
-            if (busSchedule == null) 
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                busSchedule.BusScheduleId = updateBusScheduleDto.BusScheduleId;
+                busSchedule.DepartureTime = updateBusScheduleDto.DepartureTime;
+                busSchedule.ArrivalTime = updateBusScheduleDto.ArrivalTime;
+                dbContext.SaveChanges();
+                return Ok(busSchedule);
             }
-            busSchedule.BusScheduleId = updateBusScheduleDto.BusScheduleId;
-            busSchedule.DepartureTime = updateBusScheduleDto.DepartureTime;
-            busSchedule.ArrivalTime = updateBusScheduleDto.ArrivalTime;
-            dbContext.SaveChanges();
-            return Ok(busSchedule);
+            else 
+            {
+                return BadRequest(ModelState);
+            }
+            
         }
 
         [HttpDelete]
