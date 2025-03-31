@@ -43,6 +43,7 @@ namespace DijkstraImplementation.Controllers
         {
             var routeEntity = new RouteInfo()
             {
+                RouteInfoId = addRouteInfoDto.RouteInfoId,
                 RouteName = addRouteInfoDto.RouteName,
                 Origin = addRouteInfoDto.Origin,
                 Destiny = addRouteInfoDto.Destiny,

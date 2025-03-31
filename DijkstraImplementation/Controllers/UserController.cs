@@ -1,6 +1,7 @@
 ﻿using DijkstraImplementation.Data;
 using DijkstraImplementation.Models.DTOs.UserDTOs;
 using DijkstraImplementation.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace DijkstraImplementation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class UsersController : ControllerBase
     {
         private readonly AppDbContext dbContext;
@@ -44,10 +45,10 @@ namespace DijkstraImplementation.Controllers
             {
                 var userEntity = new User()
                 {
+                    UserId = addUserDto.UserId,
                     Name = addUserDto.Name,
                     Username = addUserDto.Username,
                     Password = addUserDto.Password,
-                    IsAdmin = addUserDto.IsAdmin
                 };
 
                 dbContext.Users.Add(userEntity);

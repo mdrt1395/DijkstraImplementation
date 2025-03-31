@@ -5,6 +5,7 @@ namespace DijkstraImplementation.Models.DTOs.UserDTOs
 {
     public class AddUserDto
     {
+        public required int UserId { get; set; }
         [Required(ErrorMessage = "Name is required")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Name should be between 2 and 20 characters.")]
         public required string Name { get; set; }
@@ -15,6 +16,5 @@ namespace DijkstraImplementation.Models.DTOs.UserDTOs
         [PasswordSecurity]
         [StringLength(14, MinimumLength = 8, ErrorMessage = "Password should be between 8 and 14 characters.")]
         public required string Password { get; set; }
-        public bool IsAdmin { get; set; }
     }
 }

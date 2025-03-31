@@ -1,4 +1,5 @@
-﻿using DijkstraImplementation.Models.Entities;
+﻿using System.Reflection.Metadata;
+using DijkstraImplementation.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DijkstraImplementation.Data
@@ -10,60 +11,44 @@ namespace DijkstraImplementation.Data
 
         }
         public DbSet <User> Users { get; set; }
-        public DbSet<BusInfo> BusInfos {  get; set; }
-        public DbSet<BusSchedule> BusSchedules { get; set; }
         public DbSet<RouteInfo> Routes { get; set; }
         public DbSet<BusSeat> BusSeats { get; set; }
+        public DbSet<BusInfo> BusInfos {  get; set; }
+        public DbSet<BusSchedule> BusSchedules { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<BusSeat>()
-                .HasKey(b => new { b.SeatNumber });
-
-            modelBuilder.Entity<BusSeat>()
-                .HasOne(bs => bs.User)
-                .WithMany()
-                .HasForeignKey(bs => bs.Name)
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.BusSeats)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<BusSeat>()
-               .HasOne(bs => bs.RouteInfo)
-               .WithMany()
-               .HasForeignKey(bs => bs.RouteName)
-               .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<BusSeat>()
-               .HasOne(bs => bs.BusInfo)
-               .WithMany()
-               .HasForeignKey(bs => bs.BusPlates)
-               .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(e => e.Users)
+                .WithOne(e => e.BusSeat)
+                .HasForeignKey(e => e.BusSeatId);
 
-            modelBuilder.Entity<BusSchedule>()
-                .HasKey(b => new { b.BusScheduleId });
-
-            modelBuilder.Entity<BusSchedule>()
-                .HasOne(b => b.BusInfo)
-                .WithMany()
-                .HasForeignKey(b => b.BusPlates)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<BusSchedule>()
-                .HasOne(b => b.RouteInfo)
-                .WithMany()
-                .HasForeignKey(b => b.RouteName)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<BusInfo>()
-                .HasKey(b => new { b.BusPlates });
 
             modelBuilder.Entity<RouteInfo>()
-                .HasKey(b => new { b.RouteName });
+                .HasMany(e => e.BusSchedules)
+                .WithOne(e => e.RouteInfo)
+                .HasForeignKey(e => e.RouteInfoId);
 
-            modelBuilder.Entity<User>()
-                .HasKey(b => new { b.Username });
+
+
+            modelBuilder.Entity<BusInfo>()
+                .HasMany(e => e.BusSchedules)
+                .WithOne(e => e.BusInfo)
+                .HasForeignKey(e => e.BusInfoId);
+
+
+
         }
     }
 

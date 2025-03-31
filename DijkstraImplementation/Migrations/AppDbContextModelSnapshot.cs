@@ -24,16 +24,20 @@ namespace DijkstraImplementation.Migrations
 
             modelBuilder.Entity("DijkstraImplementation.Models.Entities.BusInfo", b =>
                 {
-                    b.Property<string>("BusPlates")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("BusInfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BusInfoId"));
+
+                    b.Property<string>("BusPlates")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("int");
 
-                    b.HasKey("BusPlates");
+                    b.HasKey("BusInfoId");
 
                     b.ToTable("BusInfos");
                 });
@@ -46,56 +50,52 @@ namespace DijkstraImplementation.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("BusPlates")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("BusInfoId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RouteName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("RouteInfoId")
+                        .HasColumnType("int");
 
                     b.HasKey("BusScheduleId");
 
-                    b.HasIndex("BusPlates");
+                    b.HasIndex("BusInfoId");
 
-                    b.HasIndex("RouteName");
+                    b.HasIndex("RouteInfoId");
 
                     b.ToTable("BusSchedules");
                 });
 
             modelBuilder.Entity("DijkstraImplementation.Models.Entities.BusSeat", b =>
                 {
-                    b.Property<int>("SeatNumber")
+                    b.Property<int>("BusSeatId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SeatNumber"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BusSeatId"));
 
-                    b.Property<string>("BusPlates")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RouteName")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("BusSeatId");
 
-                    b.HasKey("SeatNumber");
-
-                    b.HasIndex("BusPlates");
-
-                    b.HasIndex("Name");
-
-                    b.HasIndex("RouteName");
+                    b.HasIndex("UserId");
 
                     b.ToTable("BusSeats");
                 });
 
             modelBuilder.Entity("DijkstraImplementation.Models.Entities.RouteInfo", b =>
                 {
-                    b.Property<string>("RouteName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RouteInfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RouteInfoId"));
 
                     b.Property<string>("Destiny")
                         .IsRequired()
@@ -108,18 +108,25 @@ namespace DijkstraImplementation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RouteName");
+                    b.Property<string>("RouteName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RouteInfoId");
 
                     b.ToTable("Routes");
                 });
 
             modelBuilder.Entity("DijkstraImplementation.Models.Entities.User", b =>
                 {
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<int?>("BusSeatId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -129,7 +136,13 @@ namespace DijkstraImplementation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Username");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("BusSeatId");
 
                     b.ToTable("Users");
                 });
@@ -137,14 +150,12 @@ namespace DijkstraImplementation.Migrations
             modelBuilder.Entity("DijkstraImplementation.Models.Entities.BusSchedule", b =>
                 {
                     b.HasOne("DijkstraImplementation.Models.Entities.BusInfo", "BusInfo")
-                        .WithMany()
-                        .HasForeignKey("BusPlates")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("BusSchedules")
+                        .HasForeignKey("BusInfoId");
 
                     b.HasOne("DijkstraImplementation.Models.Entities.RouteInfo", "RouteInfo")
-                        .WithMany()
-                        .HasForeignKey("RouteName")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany("BusSchedules")
+                        .HasForeignKey("RouteInfoId");
 
                     b.Navigation("BusInfo");
 
@@ -153,26 +164,41 @@ namespace DijkstraImplementation.Migrations
 
             modelBuilder.Entity("DijkstraImplementation.Models.Entities.BusSeat", b =>
                 {
-                    b.HasOne("DijkstraImplementation.Models.Entities.BusInfo", "BusInfo")
-                        .WithMany()
-                        .HasForeignKey("BusPlates")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("DijkstraImplementation.Models.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("Name")
+                        .WithMany("BusSeats")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DijkstraImplementation.Models.Entities.RouteInfo", "RouteInfo")
-                        .WithMany()
-                        .HasForeignKey("RouteName")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("BusInfo");
-
-                    b.Navigation("RouteInfo");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DijkstraImplementation.Models.Entities.User", b =>
+                {
+                    b.HasOne("DijkstraImplementation.Models.Entities.BusSeat", "BusSeat")
+                        .WithMany("Users")
+                        .HasForeignKey("BusSeatId");
+
+                    b.Navigation("BusSeat");
+                });
+
+            modelBuilder.Entity("DijkstraImplementation.Models.Entities.BusInfo", b =>
+                {
+                    b.Navigation("BusSchedules");
+                });
+
+            modelBuilder.Entity("DijkstraImplementation.Models.Entities.BusSeat", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("DijkstraImplementation.Models.Entities.RouteInfo", b =>
+                {
+                    b.Navigation("BusSchedules");
+                });
+
+            modelBuilder.Entity("DijkstraImplementation.Models.Entities.User", b =>
+                {
+                    b.Navigation("BusSeats");
                 });
 #pragma warning restore 612, 618
         }

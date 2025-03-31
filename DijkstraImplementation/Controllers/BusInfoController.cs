@@ -42,28 +42,28 @@ namespace DijkstraImplementation.Controllers
         {
             var busEntity = new BusInfo()
             {
+                BusInfoId = addBusInfoDto.BusInfoId,
                 BusPlates = addBusInfoDto.BusPlates,
-                NumberOfSeats = addBusInfoDto.NumberOfSeats,
-                IsAvailable = addBusInfoDto.IsAvailable,
+                NumberOfSeats = addBusInfoDto.NumberOfSeats
             };
             dbContext.BusInfos.Add(busEntity);
             dbContext.SaveChanges();
             return Ok(busEntity);
         }
 
-        [HttpPut]
-        [Route("{BusPlates:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
-        public IActionResult UpdateBusInfo(string BusPlates, UpdateBusInfoDto updateBusInfoDto) 
-        {
-            var bus = dbContext.BusInfos.Find(BusPlates);
-            if ( bus is null)
-            {
-                return NotFound();
-            }
-            bus.IsAvailable = updateBusInfoDto.IsAvailable;
-            dbContext.SaveChanges();
-            return Ok(bus);
-        }
+        //[HttpPut]
+        //[Route("{BusPlates:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]
+        //public IActionResult UpdateBusInfo(string BusPlates, UpdateBusInfoDto updateBusInfoDto) 
+        //{
+        //    var bus = dbContext.BusInfos.Find(BusPlates);
+        //    if ( bus is null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    bus.IsAvailable = updateBusInfoDto.IsAvailable;
+        //    dbContext.SaveChanges();
+        //    return Ok(bus);
+        //}
 
         [HttpDelete]
         [Route("{BusPlates:regex([[A-Za-z0-9!@#$%^&*()-_=+]])}")]

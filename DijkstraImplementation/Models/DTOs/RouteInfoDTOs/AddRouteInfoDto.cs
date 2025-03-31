@@ -2,6 +2,7 @@
 {
     public class AddRouteInfoDto
     {
+        public required int RouteInfoId { get; set; }
         public required string RouteName { get; set; }
         public required string Origin { get; set; }
         public required string Destiny { get; set; }
